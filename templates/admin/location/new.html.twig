@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/styles/css/variables.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Nouvel établissement{% endblock %}
+
+{% block body %}
+    <h1>Ajoutez un établissement</h1>
+
+    {{ include('admin/location/_form.html.twig') }}
+
+    <a href="{{ path('app_location_index') }}">Retour au panel admin</a>
+{% endblock %}

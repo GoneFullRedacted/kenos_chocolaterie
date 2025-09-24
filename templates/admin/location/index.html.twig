@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/styles/css/variables.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/admin_table.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Liste des établissements{% endblock %}
+
+{% block body %}
+    <h1>Liste des établissements</h1>
+
+    <div class="panel-container">
+        <div class="practical-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Etablissement</th>
+                        <th>Edition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for location in locations %}
+                    <tr>
+                        <td>{{ location.locname }}</td>
+                        <td>
+                            <a href="{{ path('app_location_edit', {'id': location.id}) }}"><button class="btn-edit">{{ button_label|default('✏️Modifier') }}</button></a>
+                            <a href="{{ path('app_location_delete', {'id': location.id}) }}"><button class="btn-del">{{ button_label|default('🗑️Supprimer') }}</button></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Veuillez renseigner la base de donnée</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>   
+        <div class="additionnal-actions">
+            <a href="{{ path('app_location_new') }}"><button class="btn-add">{{ button_label|default('➕Ajoutez un établissement') }}</button></a>
+        </div>
+    </div>
+{% endblock %}

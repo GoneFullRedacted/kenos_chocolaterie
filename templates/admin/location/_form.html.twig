@@ -1,0 +1,20 @@
+{{ form_start(form) }}
+    <div class="">
+
+        {{ form_label(form.locname)}}
+        
+        {{ form_widget(form.locname) }}
+
+       {#{% if form.locname.vars.errors|length > 0 %}
+                <div class="">
+                    {% for error in form.locname.vars.errors %}
+                        <div class="">{{ error.message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+       #}
+       {{ form_errors(form.locname) }}
+    </div>
+
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}
