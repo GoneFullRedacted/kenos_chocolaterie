@@ -28,14 +28,14 @@ class Article
     #[ORM\Column(length: 45, nullable: true)]
     private ?string $atitle = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    private ?User $user = null;
-
     /**
      * @var Collection<int, Articlepic>
      */
     #[ORM\OneToMany(targetEntity: Articlepic::class, mappedBy: 'article')]
     private Collection $articlepics;
+
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -95,18 +95,6 @@ class Article
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Articlepic>
      */
@@ -133,6 +121,18 @@ class Article
                 $articlepic->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

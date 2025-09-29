@@ -6,14 +6,32 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 180)]
+    private ?string $email = null;
+
+    /**
+     * @var list<string> The user roles
+     */
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
 
     #[ORM\Column(length: 45)]
     private ?string $firstname = null;
@@ -21,37 +39,28 @@ class User
     #[ORM\Column(length: 45)]
     private ?string $lastname = null;
 
-    #[ORM\Column]
-    private ?int $email = null;
-
-    #[ORM\Column(length: 45)]
-    private ?string $role = null;
-
     #[ORM\Column(length: 255)]
-    private ?string $password = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(length: 45)]
     private ?string $status = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 45)]
     private ?string $instagram = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 45)]
     private ?string $linkedin = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 45)]
     private ?string $facebook = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 45)]
     private ?string $twitter = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $bannerpic = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $profilepic = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
@@ -64,12 +73,6 @@ class User
     private Collection $articles;
 
     /**
-     * @var Collection<int, Post>
-     */
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user')]
-    private Collection $posts;
-
-    /**
      * @var Collection<int, Postcomment>
      */
     #[ORM\OneToMany(targetEntity: Postcomment::class, mappedBy: 'user')]
@@ -78,20 +81,102 @@ class User
     /**
      * @var Collection<int, Post>
      */
-    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'likes')]
+    #[ORM\ManyToMany(targetEntity: Post::class, inversedBy: 'likes')]
     private Collection $likes;
+
+    /**
+     * @var Collection<int, Post>
+     */
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user')]
+    private Collection $posts;
 
     public function __construct()
     {
-        $this->articles = new ArrayCollection();
-        $this->posts = new ArrayCollection();
-        $this->postcomments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->articles = new ArrayCollection();
+        $this->postcomments = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * @param list<string> $roles
+     */
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Ensure the session doesn't contain actual password hashes by CRC32C-hashing them, as supported since Symfony 7.3.
+     */
+    public function __serialize(): array
+    {
+        $data = (array) $this;
+        $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
+
+        return $data;
+    }
+
+    #[\Deprecated]
+    public function eraseCredentials(): void
+    {
+        // @deprecated, to be removed when upgrading to Symfony 8
     }
 
     public function getFirstname(): ?string
@@ -118,48 +203,12 @@ class User
         return $this;
     }
 
-    public function getEmail(): ?int
-    {
-        return $this->email;
-    }
-
-    public function setEmail(int $email): static
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(string $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): static
+    public function setDescription(string $description): static
     {
         $this->description = $description;
 
@@ -183,7 +232,7 @@ class User
         return $this->instagram;
     }
 
-    public function setInstagram(?string $instagram): static
+    public function setInstagram(string $instagram): static
     {
         $this->instagram = $instagram;
 
@@ -195,7 +244,7 @@ class User
         return $this->linkedin;
     }
 
-    public function setLinkedin(?string $linkedin): static
+    public function setLinkedin(string $linkedin): static
     {
         $this->linkedin = $linkedin;
 
@@ -207,7 +256,7 @@ class User
         return $this->facebook;
     }
 
-    public function setFacebook(?string $facebook): static
+    public function setFacebook(string $facebook): static
     {
         $this->facebook = $facebook;
 
@@ -219,7 +268,7 @@ class User
         return $this->twitter;
     }
 
-    public function setTwitter(?string $twitter): static
+    public function setTwitter(string $twitter): static
     {
         $this->twitter = $twitter;
 
@@ -231,7 +280,7 @@ class User
         return $this->bannerpic;
     }
 
-    public function setBannerpic(?string $bannerpic): static
+    public function setBannerpic(string $bannerpic): static
     {
         $this->bannerpic = $bannerpic;
 
@@ -243,7 +292,7 @@ class User
         return $this->profilepic;
     }
 
-    public function setProfilepic(?string $profilepic): static
+    public function setProfilepic(string $profilepic): static
     {
         $this->profilepic = $profilepic;
 
@@ -293,36 +342,6 @@ class User
     }
 
     /**
-     * @return Collection<int, Post>
-     */
-    public function getPosts(): Collection
-    {
-        return $this->posts;
-    }
-
-    public function addPost(Post $post): static
-    {
-        if (!$this->posts->contains($post)) {
-            $this->posts->add($post);
-            $post->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePost(Post $post): static
-    {
-        if ($this->posts->removeElement($post)) {
-            // set the owning side to null (unless already changed)
-            if ($post->getUser() === $this) {
-                $post->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Postcomment>
      */
     public function getPostcomments(): Collection
@@ -364,7 +383,6 @@ class User
     {
         if (!$this->likes->contains($like)) {
             $this->likes->add($like);
-            $like->addLike($this);
         }
 
         return $this;
@@ -372,8 +390,36 @@ class User
 
     public function removeLike(Post $like): static
     {
-        if ($this->likes->removeElement($like)) {
-            $like->removeLike($this);
+        $this->likes->removeElement($like);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): static
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): static
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getUser() === $this) {
+                $post->setUser(null);
+            }
         }
 
         return $this;

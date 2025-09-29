@@ -28,9 +28,6 @@ class Post
     #[ORM\Column(length: 45, nullable: true)]
     private ?string $pslug = null;
 
-    #[ORM\ManyToOne(inversedBy: 'posts')]
-    private ?User $user = null;
-
     /**
      * @var Collection<int, Postpic>
      */
@@ -52,8 +49,11 @@ class Post
     /**
      * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'likes')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'likes')]
     private Collection $likes;
+
+    #[ORM\ManyToOne(inversedBy: 'posts')]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -112,18 +112,6 @@ class Post
     public function setPslug(?string $pslug): static
     {
         $this->pslug = $pslug;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }
@@ -224,6 +212,7 @@ class Post
     {
         if (!$this->likes->contains($like)) {
             $this->likes->add($like);
+            $like->addLike($this);
         }
 
         return $this;
@@ -231,8 +220,23 @@ class Post
 
     public function removeLike(User $like): static
     {
-        $this->likes->removeElement($like);
+        if ($this->likes->removeElement($like)) {
+            $like->removeLike($this);
+        }
 
         return $this;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
 }

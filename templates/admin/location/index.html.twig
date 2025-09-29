@@ -1,44 +1,69 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block stylesheets %}
-    <link href="{{ asset('assets/styles/css/variables.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/globals.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/styles/css/components.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/styles/css/components/admin_table.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/admin_header.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body_classes %}
+    vertical-layout 
 {% endblock %}
 
 {% block title %}Liste des établissements{% endblock %}
 
-{% block body %}
-    <h1>Liste des établissements</h1>
+{% block admin_header %}
+    {{ include('admin/components/admin_header.html.twig', {
+    'header_mode': 'vertical' 
+    }) }}
+{%endblock%}
 
-    <div class="panel-container">
-        <div class="practical-container">
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Etablissement</th>
-                        <th>Edition</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for location in locations %}
-                    <tr>
-                        <td>{{ location.locname }}</td>
-                        <td>
-                            <a href="{{ path('app_location_edit', {'id': location.id}) }}"><button class="btn-edit">{{ button_label|default('✏️Modifier') }}</button></a>
-                            <a href="{{ path('app_location_delete', {'id': location.id}) }}"><button class="btn-del">{{ button_label|default('🗑️Supprimer') }}</button></a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="4">Veuillez renseigner la base de donnée</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>   
-        <div class="additionnal-actions">
-            <a href="{{ path('app_location_new') }}"><button class="btn-add">{{ button_label|default('➕Ajoutez un établissement') }}</button></a>
-        </div>
-    </div>
+{% block body %}
+
+    <h1 class="panel-title">Liste des établissements</h1>
+
+    <section class="table-layout">
+
+        <section class="table-container">
+
+            <section class="table-header"> 
+                <article class="table-header-column col-3">
+                    <h1 class="column-title">Etablissement</h1>
+                </article>
+
+                <article class="table-header-column col-1">
+                    <h1 class="column-title">Edition</h1>
+                </article>
+            </section>
+
+            {% for location in locations %}
+            <section class="table-rows">
+                <article class="table-rows-column col-3">
+                    <p> {{ location.locname }} </p>
+                </article>
+
+                <article class="table-rows-column col-1">
+                    <a href="{{ path('app_location_edit', {'id': location.id}) }}"><button class="btn-edit">{{ button_label|default('✏️Modifier') }}</button></a>
+                    <a href="{{ path('app_location_delete', {'id': location.id}) }}"><button class="btn-del">{{ button_label|default('🗑️Supprimer') }}</button></a>
+                </article>
+            </section>
+
+            {% else %} 
+
+            <section class="table-rows">
+                <article class="table-rows-column">
+                    <h1 class="column-content">Veuillez renseigner la base de donnée</h1>
+                </article>
+            </section>
+
+            {% endfor %}
+        </section>
+   
+    </section>
+
+    <section class="additionnal-actions">
+        <a href="{{ path('app_location_new') }}"><button class="btn-add">{{ button_label|default('✏️Ajouter') }}</button></a>
+    </section> 
+
 {% endblock %}

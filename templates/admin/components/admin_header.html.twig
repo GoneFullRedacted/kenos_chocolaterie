@@ -1,14 +1,26 @@
-<header class="app-header">
-    <div>
-        <a href="/"><img src="" alt=""></a>
+<header class="admin-header {{ header_mode|default('horizontal') }} ">
+    
+    <div class="header-logo">
+        <a href=""><img src="/assets\images\logo-david-kenos.png" alt="Logo"></a>
     </div>
+
     <div class="header-title">
-        <h1></h1>
+        <h1 class="header-title"><span>Bienvenue,</span><br>dans votre administration</h1>
     </div>
-    <nav>
+
+    <nav class="header-status">
         <a href="/">Accueil</a>
         <a href="/">Déconnexion</a>
         <a href="/">Chocolaterie</a>
         <a href="/">Profil</a>
     </nav>
+
+    <section class="category-nav">
+        <a href="/">UTILISATEURS</a>
+        <a href="/">CATEGORIES</a>
+        <a href="/">POSTS</a>
+        <a href="/">ACTUALITES</a>
+        <a href="/">CHOCOLATERIES</a>
+    </section>
+
 </header>
