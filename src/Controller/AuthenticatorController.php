@@ -6,9 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-    // Ajout d'après doc
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
 class AuthenticatorController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
@@ -31,22 +28,4 @@ class AuthenticatorController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
-
-    // Ajout d'après doc
-    public function index(UserPasswordHasherInterface $passwordHasher): Response
-    {
-        // ... e.g. get the user data from a registration form
-        $user = new User(...);
-        $plaintextPassword = ...;
-
-        // hash the password (based on the security.yaml config for the $user class)
-        $hashedPassword = $passwordHasher->hashPassword(
-            $user,
-            $plaintextPassword
-        );
-        $user->setPassword($hashedPassword);
-
-        // ...
-    }
-
 }
