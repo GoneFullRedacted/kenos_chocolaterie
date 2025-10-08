@@ -1,0 +1,71 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/styles/css/globals.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/admin_table.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/admin_header.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Gestionnaire{% endblock %}
+
+{% block admin_header %}
+    {{ include('admin/components/admin_header.html.twig', {
+    'header_mode': 'horizontal' 
+    }) }}
+{%endblock%}
+
+{% block body %}
+
+    <section class="admin-dashboard">
+        <div class="card-group">
+            <div class="card">
+                <div class="card-top">
+                    <div class="circle">10</div>
+                    <div class="card-text">
+                        <h2>UTILISATEURS</h2>
+                        <p>sont inscrits</p>
+                    </div>
+                </div>
+                <button class="btn-edit">Gérer les utilisateurs</button>
+            </div>
+            <div class="card">
+                <div class="card-top">
+                    <div class="circle">5</div>
+                    <div class="card-text">
+                        <h2>CATÉGORIES</h2>
+                        <p>de posts sont disponibles</p>
+                    </div>
+                </div>
+                <button class="admin-button">Gérer les catégories</button>
+            </div>
+        </div>
+        <div class="card card-large">
+            <div class="card-top">
+                <div class="circle">35</div>
+                <div class="card-text">
+                    <h2>ACTUALITÉS</h2>
+                    <p>sont disponibles</p>
+                </div>
+            </div>
+            <ul class="NewsList">
+                <li>Le 12/09/2021 – Lorem ipsum dolor sit amet</li>
+                <li>Le 12/09/2021 – Lorem ipsum dolor sit amet</li>
+                <li>Le 12/09/2021 – Lorem ipsum dolor sit amet</li>
+            </ul>
+            <button class="admin-button">Gérer les actualités</button>
+        </div>
+
+        <div class="card">
+            <div class="card-top">
+                <div class="circle">48</div>
+                <div class="card-text">
+                    <h2>POSTS</h2>
+                    <p>sont disponibles</p>
+                </div>
+            </div>
+            <button class="admin-button">Gérer les posts</button>
+        </div>
+    </section>
+
+{% endblock %}

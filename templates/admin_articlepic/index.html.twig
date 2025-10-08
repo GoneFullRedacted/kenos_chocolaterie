@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articlepic index{% endblock %}
+
+{% block body %}
+    <h1>Articlepic index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pic</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for articlepic in articlepics %}
+            <tr>
+                <td>{{ articlepic.id }}</td>
+                <td>{{ articlepic.pic }}</td>
+                <td>
+                    <a href="{{ path('app_admin_articlepic_show', {'id': articlepic.id}) }}">show</a>
+                    <a href="{{ path('app_admin_articlepic_edit', {'id': articlepic.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_articlepic_new') }}">Create new</a>
+{% endblock %}

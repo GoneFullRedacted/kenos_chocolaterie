@@ -95,6 +95,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    #[ORM\Column(options: ['default' => false])]
+    private bool $isApprovedByAdmin = false;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
@@ -439,6 +442,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->isVerified = $isVerified;
 
+        return $this;
+    }
+    public function isApprovedByAdmin(): bool
+    {
+        return $this->isApprovedByAdmin;
+    }
+
+    public function setIsApprovedByAdmin(bool $isApprovedByAdmin): static
+    {
+        $this->isApprovedByAdmin = $isApprovedByAdmin;
         return $this;
     }
 }

@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs en attente de validation{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Utilisateurs en attente de validation</h1>
+    <p class="text-muted">Ces utilisateurs ont vérifié leur email et attendent votre approbation.</p>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+    {% if pending_users is empty %}
+        <div class="alert alert-info">
+            Aucun utilisateur en attente de validation.
+        </div>
+    {% else %}
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Email vérifié</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in pending_users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.lastname }}</td>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.isVerified %}
+                                <span class="badge bg-success">✓ Vérifié</span>
+                            {% else %}
+                                <span class="badge bg-warning">En attente</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form method="post" action="{{ path('admin_approve_user', {id: user.id}) }}" style="display: inline;">
+                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Approuver cet utilisateur ?')">
+                                    ✓ Approuver
+                                </button>
+                            </form>
+                            
+                            <form method="post" action="{{ path('admin_reject_user', {id: user.id}) }}" style="display: inline;">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Rejeter et supprimer cet utilisateur ?')">
+                                    ✗ Rejeter
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}
