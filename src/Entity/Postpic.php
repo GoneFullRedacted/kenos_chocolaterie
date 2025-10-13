@@ -19,6 +19,9 @@ class Postpic
     #[ORM\ManyToOne(inversedBy: 'postpics')]
     private ?Post $post = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $alttxt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Postpic
     public function setPost(?Post $post): static
     {
         $this->post = $post;
+
+        return $this;
+    }
+
+    public function getAlttxt(): ?string
+    {
+        return $this->alttxt;
+    }
+
+    public function setAlttxt(string $alttxt): static
+    {
+        $this->alttxt = $alttxt;
 
         return $this;
     }

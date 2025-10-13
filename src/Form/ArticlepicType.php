@@ -2,10 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Article;
+
 use App\Entity\Articlepic;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+// use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,14 +17,15 @@ class ArticlepicType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('imageFiles', FileType::class, [
-                'label' => 'Images (JPG, PNG ou WebP - Maximum 3)',
+
+            ->add('picFile', FileType::class, [
+                'label' => 'Images (JPG, PNG ou Web)',
                 'mapped' => false,
                 'required' => false,
-                'multiple' => true,
+                // 'multiple' => true,
                 'attr' => [
                     'accept' => 'image/*',
-                    'max' => 3
+                    // 'max' => 3
                 ],
                 'constraints' => [
                     new File([
@@ -36,6 +38,10 @@ class ArticlepicType extends AbstractType
                         'mimeTypesMessage' => 'Veuillez uploader une image valide (JPG, PNG ou WebP)',
                     ])
                 ],
+            ])
+
+            ->add('alttxt', TextType::class, [
+                'label' => 'Texte alternatif'
             ])
         ;
         // $builder

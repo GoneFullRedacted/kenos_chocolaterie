@@ -6,6 +6,9 @@ use App\Entity\Article;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,13 +17,20 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content')
-            ->add('date')
-            ->add('aslug')
-            ->add('atitle')
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+            ->add('content', TextareaType::class, [
+                'label' => 'Contenu de l\'article',
+            ])
+
+            ->add('atitle', TextType::class, [
+                'label' => 'Titre de l\'article',
+            ])
+
+            ->add('articlepics', CollectionType::class, [
+                'label' => 'Images de l\'article',
+                'entry_type' => ArticlepicType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ])
         ;
     }

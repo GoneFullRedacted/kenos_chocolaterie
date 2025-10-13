@@ -1,13 +1,25 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
-{% block title %}Edit Article{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/styles/css/globals.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/admin_table.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/login_form.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/admin_header.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Editer une actualité{% endblock %}
+
+{% block javascripts %}
+    <script src='/assets/js/AddPicBtn.js'></script>
+{%endblock%}
 
 {% block body %}
     <h1>Edit Article</h1>
 
-    {{ include('admin_article/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin_article/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('app_admin_article_index') }}">back to list</a>
+    <a href="{{ path('app_admin_article_index') }}">Retour à l'index</a>
 
     {{ include('admin_article/_delete_form.html.twig') }}
 {% endblock %}

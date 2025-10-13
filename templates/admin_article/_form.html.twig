@@ -1,4 +1,48 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
+{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+    {% set articlepic_prototype %}
+        {{ form_widget(form.articlepics.vars.prototype) }}
+    {% endset %}
+
+    <div 
+        id="articlepics-collection" 
+        data-prototype="{{ articlepic_prototype|e('html_attr') }}"
+    >
+
+    <div>
+        {{ form_label(form.atitle) }}
+        {{ form_widget(form.atitle) }}
+        {{ form_errors(form.atitle) }}
+    </div>
+
+    <div>
+        {{ form_label(form.content) }}
+        {{ form_widget(form.content) }}
+        {{ form_errors(form.content) }}
+    </div>
+
+
+    <div class="mb-3">
+    {{ form_label(form.articlepics, 'Images de l\'article') }}
+    
+    {% if form.articlepics|length == 0 %}
+        <div class="articlepic-item mb-2">
+            {{ articlepic_prototype|replace({'__name__': '0'})|raw }}
+        </div>
+    {% else %}
+        {# Afficher les images existantes #}
+        {% for articlepic in form.articlepics %}
+            <div class="articlepic-item mb-2">
+                {{ form_widget(articlepic.picFile) }}
+                {{ form_widget(articlepic.alttxt) }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+    
+    {{ form_errors(form.articlepics) }}
+    
+    <small class="text-muted">Sélectionnez une image pour ajouter un nouveau champ (maximum 3)</small>
+</div>
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

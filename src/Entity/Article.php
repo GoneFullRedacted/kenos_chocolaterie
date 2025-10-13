@@ -31,7 +31,7 @@ class Article
     /**
      * @var Collection<int, Articlepic>
      */
-    #[ORM\OneToMany(targetEntity: Articlepic::class, mappedBy: 'article')]
+    #[ORM\OneToMany(targetEntity: Articlepic::class, mappedBy: 'article', cascade: ['persist'], orphanRemoval: true)]
     private Collection $articlepics;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
