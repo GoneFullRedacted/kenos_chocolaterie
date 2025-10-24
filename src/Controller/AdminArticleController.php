@@ -32,16 +32,16 @@ final class AdminArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
         // Traiter les images des articles
-        foreach ($article->getArticlepics() as $articlepic) {
+        foreach ($form->get('articlepics') as $articlepicform) {
             // Récupérer le fichier uploadé
-            $imageFile = $articlepic->getPicFile(); // UploadedFile ou null
+            $imageFile = $articlepicform->get('picFile')->getData(); // UploadedFile ou null
             
             if ($imageFile) {
                 // Upload dans le répertoire 'articles'
-                $newFilename = $fileUploader->upload($imageFile, 'articles');
+                $newFilename = $fileUploader->upload($imageFile, $article->getAtitle(), 'articles');
                 
                 // Sauvegarder le nom du fichier en BDD
-                $articlepic->setPic($newFilename);
+                $articlepicform->getData()->setPic($newFilename);
             }
         }
 
@@ -73,26 +73,30 @@ final class AdminArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
         // Traiter les images des articles
-        foreach ($article->getArticlepics() as $articlepic) {
+        foreach ($form->get('articlepics') as $articlepicform) {
             // Récupérer le nouveau fichier uploadé
-            $newImageFile = $articlepic->getPicFile(); // UploadedFile ou null
-            
+            $newImageFile = $articlepicform->get("picFile")->getData(); // UploadedFile ou null
+
+            dump($newImageFile);
+
             if ($newImageFile) {
                 // Supprimer l'ancienne image si elle existe
-                $oldFilename = $articlepic->getPic(); // string depuis la BDD
+                $oldFilename = $articlepicform->getData()->getPic(); // string depuis la BDD
                 if ($oldFilename) {
                     $fileUploader->delete($oldFilename, 'articles');
                 }
                 
                 // Upload la nouvelle image
-                $newFilename = $fileUploader->upload($newImageFile, 'articles');
-                $articlepic->setPic($newFilename); // string
+                $newFilename = $fileUploader->upload($newImageFile, $article->getAtitle(), 'articles');
+                $articlepicform->getData()->setPic($newFilename); // string
             }
         }
 
+        $entityManager->persist($article);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_admin_article_index', [], Response::HTTP_SEE_OTHER);
+
+        // return $this->redirectToRoute('app_admin_article_index', [], Response::HTTP_SEE_OTHER);
     }
 
         return $this->render('admin_article/edit.html.twig', [

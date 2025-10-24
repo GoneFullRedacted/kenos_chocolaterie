@@ -4,22 +4,33 @@
     <link href="{{ asset('assets/styles/css/globals.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/styles/css/components.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/styles/css/components/admin_table.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/styles/css/components/login_form.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/panel_form.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/styles/css/components/admin_header.css') }}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}Editer une actualité{% endblock %}
+{% block title %}Editez une actualité{% endblock %}
+
+{% block body_classes %}
+    vertical-layout 
+{% endblock %}
 
 {% block javascripts %}
-    <script src='/assets/js/AddPicBtn.js'></script>
+    <script src='/assets/js/AdminArticle.js' type='module'></script>
+{%endblock%}
+
+{% block admin_header %}
+{{ include('admin/components/admin_header.html.twig', {
+'header_mode': 'vertical' 
+}) }}
 {%endblock%}
 
 {% block body %}
-    <h1>Edit Article</h1>
-
-    {{ include('admin_article/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
-    <a href="{{ path('app_admin_article_index') }}">Retour à l'index</a>
-
-    {{ include('admin_article/_delete_form.html.twig') }}
+    
+    <div class='form-block'>
+        <h1>Editez l'article</h1>
+        {{ include('admin_article/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        {{ include('admin_article/_delete_form.html.twig') }}
+        <a href="{{ path('app_admin_article_index') }}">Retour à l'index</a>
+    </div>
+    
 {% endblock %}

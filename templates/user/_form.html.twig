@@ -1,4 +1,123 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+        <div class="form-data-block">
+
+            <div class="form-object">
+                {{ form_label(form.lastname) }}
+            </div>
+
+            <div class="form-object">   
+                {{ form_widget(form.lastname) }}
+            </div>
+
+            <div class="form-object">
+                {{ form_errors(form.lastname) }}
+            </div>
+
+        </div>
+        <div class="form-data-block">
+
+            <div class="form-object">
+                {{ form_label(form.firstname) }}
+            </div>
+
+            <div class="form-object">   
+                {{ form_widget(form.firstname) }}
+            </div>
+
+            <div class="form-object">
+                {{ form_errors(form.firstname) }}
+            </div>
+            
+        </div>
+        <div class="form-data-block">
+
+            <div class="form-object">
+                {{ form_label(form.email) }}
+            </div>
+
+            <div class="form-object">   
+                {{ form_widget(form.email) }}
+            </div>
+
+            <div class="form-object">
+                {{ form_errors(form.email) }}
+            </div>
+            
+        </div>
+        <div class="form-data-block">
+
+            <div class="form-object">
+                {{ form_label(form.description) }}
+            </div>
+
+            <div class="form-object">   
+                {{ form_widget(form.description) }}
+            </div>
+
+            <div class="form-object">
+                {{ form_errors(form.description) }}
+            </div>
+            
+        </div>
+        <div class="form-data-block">
+
+            <div class="form-object">
+                {{ form_label(form.instagram) }}
+            </div>
+
+            <div class="form-object">   
+                {{ form_widget(form.instagram) }}
+            </div>
+
+            <div class="form-object">
+                {{ form_errors(form.instagram) }}
+            </div>
+            
+        </div>
+        <div class="form-data-block">
+
+            <div class="form-object">
+                {{ form_label(form.linkedin) }}
+            </div>
+
+            <div class="form-object">   
+                {{ form_widget(form.linkedin) }}
+            </div>
+
+            <div class="form-object">
+                {{ form_errors(form.linkedin) }}
+            </div>
+            
+        </div>
+        <div class="form-data-block">
+
+            <div class="form-object">
+                {{ form_label(form.facebook) }}
+            </div>
+
+            <div class="form-object">   
+                {{ form_widget(form.facebook) }}
+            </div>
+
+            <div class="form-object">
+                {{ form_errors(form.facebook) }}
+            </div>
+            
+        </div>
+        <div class="form-data-block">
+
+            <div class="form-object">
+                {{ form_label(form.twitter) }}
+            </div>
+
+            <div class="form-object">   
+                {{ form_widget(form.twitter) }}
+            </div>
+
+            <div class="form-object">
+                {{ form_errors(form.twitter) }}
+            </div>
+            
+        </div>
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

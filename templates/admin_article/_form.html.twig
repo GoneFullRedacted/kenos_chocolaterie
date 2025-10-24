@@ -1,48 +1,49 @@
 {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+<div class="form-fields">
+    <div data-flex="6" class="form-data-block">
 
-    {% set articlepic_prototype %}
-        {{ form_widget(form.articlepics.vars.prototype) }}
-    {% endset %}
-
-    <div 
-        id="articlepics-collection" 
-        data-prototype="{{ articlepic_prototype|e('html_attr') }}"
-    >
-
-    <div>
-        {{ form_label(form.atitle) }}
-        {{ form_widget(form.atitle) }}
-        {{ form_errors(form.atitle) }}
-    </div>
-
-    <div>
-        {{ form_label(form.content) }}
-        {{ form_widget(form.content) }}
-        {{ form_errors(form.content) }}
-    </div>
-
-
-    <div class="mb-3">
-    {{ form_label(form.articlepics, 'Images de l\'article') }}
-    
-    {% if form.articlepics|length == 0 %}
-        <div class="articlepic-item mb-2">
-            {{ articlepic_prototype|replace({'__name__': '0'})|raw }}
+        <div class="form-object">
+            {{ form_label(form.atitle) }}
+            {{ form_widget(form.atitle) }}
         </div>
-    {% else %}
-        {# Afficher les images existantes #}
-        {% for articlepic in form.articlepics %}
-            <div class="articlepic-item mb-2">
-                {{ form_widget(articlepic.picFile) }}
-                {{ form_widget(articlepic.alttxt) }}
-            </div>
-        {% endfor %}
-    {% endif %}
+            
+        <div class="form-object-errors">
+            {{ form_errors(form.atitle) }}
+        </div>
+
+        <div class="form-object">
+            {{ form_label(form.content) }}
+            {{ form_widget(form.content) }}
+        </div>
+
+        <div class="form-object-errors">
+            {{ form_errors(form.content) }}
+        </div>
+
+    <div class="btn-block">
+        <button class="btn-style btn-avg">{{ button_label|default('Save') }}</button>
     </div>
-    
-    {{ form_errors(form.articlepics) }}
-    
-    <small class="text-muted">Sélectionnez une image pour ajouter un nouveau champ (maximum 3)</small>
+
+    </div>
+
+    <div data-flex="4" class="form-data-block">
+        <h2>
+        <ul 
+            class="articlepics-collection" 
+            data-index="{{ form.articlepics|length }}"
+            data-prototype="
+                {{ include('admin_article/_form_picfile.html.twig', {articlepic: form.articlepics.vars.prototype})|e('html_attr') }}
+            "
+        >
+            {% for articlepic in form.articlepics %}
+                <li class="articlepic-item">
+                    {{ include('admin_article/_form_picfile.html.twig', {articlepic: articlepic})}}
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
 </div>
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+
 {{ form_end(form) }}

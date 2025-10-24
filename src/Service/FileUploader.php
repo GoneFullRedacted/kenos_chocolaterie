@@ -21,21 +21,15 @@ class FileUploader
      * @param string $subdirectory Le sous-répertoire (ex: 'articles', 'posts', 'users')
      * @return string Le nom du fichier généré
      */
-    public function upload(UploadedFile $file, string $subdirectory = ''): string
+    public function upload(UploadedFile $file, string $name, string $subdirectory = ''): string
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
+        $safeFilename = $this->slugger->slug($name);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
         // Déterminer le répertoire cible
         $targetDirectory = $subdirectory 
             ? $this->uploadsDirectory . '/' . $subdirectory
             : $this->uploadsDirectory;
-
-        // Créer le répertoire s'il n'existe pas
-        if (!is_dir($targetDirectory)) {
-            mkdir($targetDirectory, 0755, true);
-        }
 
         try {
             $file->move($targetDirectory, $fileName);

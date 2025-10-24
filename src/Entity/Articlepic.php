@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\ArticlepicRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,9 +15,6 @@ class Articlepic
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $pic = null;
-
-        // Propriété temporaire pour le fichier uploadé (NON mappée en BDD)
-    private ?UploadedFile $picFile = null;
 
     #[ORM\ManyToOne(inversedBy: 'articlepics')]
     private ?Article $article = null;
@@ -64,18 +60,6 @@ class Articlepic
     {
         $this->alttxt = $alttxt;
 
-        return $this;
-    }
-
-    // Getter/Setter pour le fichier temporaire (UploadedFile)
-    public function getPicFile(): ?UploadedFile
-    {
-        return $this->picFile;
-    }
-
-    public function setPicFile(?UploadedFile $picFile): static
-    {
-        $this->picFile = $picFile;
         return $this;
     }
 }

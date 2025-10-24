@@ -25,7 +25,7 @@ class ArticlepicType extends AbstractType
                 // 'multiple' => true,
                 'attr' => [
                     'accept' => 'image/*',
-                    // 'max' => 3
+                    'class' => 'upload-btn'
                 ],
                 'constraints' => [
                     new File([
