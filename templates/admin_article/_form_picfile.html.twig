@@ -1,10 +1,14 @@
-<div class="overlay">
+<div class="overlay hidden">
     <div class="window">
-        <div class="file-display">
-            {{ form_widget(articlepic.picFile, {'attr': {'class': 'file-input'}}) }}
-            <label for="{{ articlepic.picFile.vars.id }}" class="btn-upload">
-                <span>+</span>
-            </label>
+        <button type="button" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
+        <div class="upload-display">
+
+            <div class="file-display">
+                {{ form_widget(articlepic.picFile) }}
+                <label for="{{ articlepic.picFile.vars.id }}" class="btn-upload">
+                    <i class="fa-solid fa-plus"></i>
+                </label>
+            </div>
             <div class="file-display">
                 <span class="file-name"></span> 
                 <span class="success-icon hidden">✓</span>
@@ -12,27 +16,30 @@
                     {{ form_errors(articlepic.picFile) }}
                 </div>
             </div>
-        </div>
-        <div class='file-display'>
-            {{ form_label(articlepic.alttxt) }}
-            {{ form_widget(articlepic.alttxt) }}
-            <div class='form-errors'>
-                {{ form_errors(articlepic.alttxt) }}
+            <div class='file-display'>
+                {{ form_label(articlepic.alttxt) }}
+                {{ form_widget(articlepic.alttxt) }}
+                <div class='form-errors'>
+                    {{ form_errors(articlepic.alttxt) }}
+                </div>
             </div>
         </div>
-        <button class="validate-button" type="button">Valider</button>
+        <button class="validate-button btn-add" type="button">Valider</button>
     </div>
 </div>
-<div class="up-frame">
-    {% set entity = articlepic.vars.value %}
-    {% set filename = entity.pic | default(null) %}
-    {% if filename is not null %}
-        <img src="/uploads/articles/{{ filename }}" alt="{{ entity.alttxt | default('Image de l\'article') }}">
-    {% endif %}
-    <div class="up-frame-btn">
-        <button type="button" class="btn-edit-rd" title="Editer"><i class="fa-solid fa-pen"></i></button>
-        <button type="button" class="btn-del-rd delete-pic-file" title="Supprimer"><i class="fa-solid fa-trash"></i></button>
+<div class="up-frame-block">
+    <div class="up-frame">
+        {% set entity = articlepic.vars.value %}
+        {% set filename = entity.pic | default(null) %}
+        {% if filename is not null %}
+            <img src="/uploads/articles/{{ filename }}" alt="{{ entity.alttxt | default('Image de l\'article') }}">
+        {% else %}
+            <img src="//:0" alt="">
+        {% endif %}
+        <div class="up-frame-btn">
+            <button type="button" class="btn-edit-rd" title="Editer"><i class="fa-solid fa-pen"></i></button>
+            <button type="button" class="btn-del-rd delete-pic-file" title="Supprimer"><i class="fa-solid fa-trash"></i></button>
+        </div>
     </div>
 </div>
-
 

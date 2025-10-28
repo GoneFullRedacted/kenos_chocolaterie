@@ -1,6 +1,6 @@
 {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
 <div class="form-fields">
-    <div data-flex="6" class="form-data-block">
+    <div data-flex="6" class="form-data-block ">
 
         <div class="form-object">
             {{ form_label(form.atitle) }}
@@ -27,9 +27,19 @@
     </div>
 
     <div data-flex="4" class="form-data-block">
-        <h2>
+        <div class="form-object-line">
+            <p>Ajoutez une image<p>
+            <div>
+                <button type="button" class="btn-upload add-articlepic" data-collection-holder-class="articlepics-collection"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="">
+            {% if form.articlepics|length == 0 %}
+                <p class="missing-pic">Vous n'avez pas encore de photos ajoutées pour cette actualité.</p>
+            {% endif %}
+        </div>
         <ul 
-            class="articlepics-collection" 
+            class="articlepics-collection upload-display" 
             data-index="{{ form.articlepics|length }}"
             data-prototype="
                 {{ include('admin_article/_form_picfile.html.twig', {articlepic: form.articlepics.vars.prototype})|e('html_attr') }}
@@ -40,6 +50,7 @@
                     {{ include('admin_article/_form_picfile.html.twig', {articlepic: articlepic})}}
                 </li>
             {% endfor %}
+        
         </ul>
 
     </div>

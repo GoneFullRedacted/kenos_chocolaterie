@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block stylesheets %}
     <link href="{{ asset('assets/styles/css/globals.css') }}" rel="stylesheet">
@@ -16,49 +16,49 @@
         <section class="table-container">
             <section class="table-header">
 
-                <article class="table-header-column col-2">
-                    <h1 class="column-title">Titre</h1>
-                </article>
+                <div class="table-header-column col-2">
+                    <h2 class="column-title">Titre</h1>
+                </div>
 
-                <article class="table-header-column col-2">
-                    <h1 class="column-title">Contenu</h1>
-                </article>
+                <div class="table-header-column col-2">
+                    <h2 class="column-title">Contenu</h1>
+                </div>
 
-                <article class="table-header-column col-1">
-                    <h1 class="column-title">Date</h1>
-                </article>
+                <div class="table-header-column col-1">
+                    <h2 class="column-title">Date</h1>
+                </div>
 
-                <article class="table-header-column col-2">
-                    <h1 class="column-title">Edition</h1>
-                </article>
+                <div class="table-header-column col-2">
+                    <h2 class="column-title">Edition</h1>
+                </div>
             </section>
             {% for article in articles %}
             <section class="table-rows">
 
-                <article class="table-rows-column col-2">
+                <div class="table-rows-column col-2">
                     <p> {{ article.atitle }} </p>
-                </article>
+                </div>
 
-                <article class="table-rows-column col-2">
+                <div class="table-rows-column col-2">
                     <p> {{ article.content }} </p>
-                </article>
+                </div>
 
-                <article class="table-rows-column col-1">
+                <div class="table-rows-column col-1">
                     <p> {{ article.date ? article.date|date('Y-m-d') : '' }} </p>
-                </article>
+                </div>
 
-                <article class="table-rows-column col-2">
+                <div class="table-rows-column col-2">
                     <a href="{{ path('app_admin_article_edit', {'id': article.id}) }}"><button class="btn-edit">{{ button_label|default('✏️Modifier') }}</button></a>
                     <a href="{{ path('app_admin_article_delete', {'id': article.id}) }}"><button class="btn-del">{{ button_label|default('🗑️Supprimer') }}</button></a>
-                </article>
+                </div>
             </section>
 
             {% else %} 
 
             <section class="table-rows">
-                <article class="table-rows-column">
-                    <h1 class="column-content">Veuillez renseigner la base de donnée</h1>
-                </article>
+                <div class="table-rows-column">
+                    <h2 class="column-content">Veuillez renseigner la base de donnée</h1>
+                </div>
             </section>
 
             {% endfor %}
