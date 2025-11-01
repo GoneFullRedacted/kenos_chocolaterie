@@ -51,7 +51,7 @@ final class AdminArticleController extends AbstractController
         return $this->redirectToRoute('app_admin_article_index', [], Response::HTTP_SEE_OTHER);
     }
 
-        return $this->render('article/new.html.twig', [
+        return $this->render('admin_article/new.html.twig', [
             'article' => $article,
             'form' => $form->createView(),
         ]);
@@ -96,7 +96,7 @@ final class AdminArticleController extends AbstractController
         $entityManager->flush();
 
 
-        // return $this->redirectToRoute('app_admin_article_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_article_index', [], Response::HTTP_SEE_OTHER);
     }
 
         return $this->render('admin_article/edit.html.twig', [

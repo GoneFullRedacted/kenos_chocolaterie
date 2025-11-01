@@ -3,6 +3,7 @@
 {% block stylesheets %}
     <link href="{{ asset('assets/styles/css/components/login_form.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/styles/css/components.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/globals.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block title %}Connectez-vous!{% endblock %}
@@ -16,13 +17,7 @@
         
         <form method="post">
             {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
+                <div class="alert alert-danger error-msg">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
             <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" placeholder="Identifiant" required autofocus>
@@ -38,11 +33,11 @@
                     <label for="_remember_me">Remember me</label>
                 </div>
             #}
-
-            <button class="btn-login" type="submit">
-                Connexion
-            </button>
-
+            <div class="btn-login-block">
+                <button class="btn-login" type="submit">
+                    Connexion
+                </button>
+            </div>
         </form>
 
     </section>

@@ -7,47 +7,51 @@
     <link href="{{ asset('assets/styles/css/components/admin_header.css') }}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}Article index{% endblock %}
+{% block body_classes %}
+    vertical-layout 
+{% endblock %}
+
+{% block title %}Index des actualités{% endblock %}
 
 {% block body %}
-    <h1>Article index</h1>
+    <h1>Index des actualités</h1>
 
     <section class="table-layout">
         <section class="table-container">
             <section class="table-header">
 
-                <div class="table-header-column col-2">
+                <div class="table-header-column" data-flex="1">
                     <h2 class="column-title">Titre</h1>
                 </div>
 
-                <div class="table-header-column col-2">
+                <div class="table-header-column" data-flex="3">
                     <h2 class="column-title">Contenu</h1>
                 </div>
 
-                <div class="table-header-column col-1">
+                <div class="table-header-column" data-flex="1">
                     <h2 class="column-title">Date</h1>
                 </div>
 
-                <div class="table-header-column col-2">
+                <div class="table-header-column" data-flex="2">
                     <h2 class="column-title">Edition</h1>
                 </div>
             </section>
             {% for article in articles %}
             <section class="table-rows">
 
-                <div class="table-rows-column col-2">
+                <div class="table-rows-column" data-flex="1">
                     <p> {{ article.atitle }} </p>
                 </div>
 
-                <div class="table-rows-column col-2">
+                <div class="table-rows-column" data-flex="3">
                     <p> {{ article.content }} </p>
                 </div>
 
-                <div class="table-rows-column col-1">
+                <div class="table-rows-column" data-flex="1">
                     <p> {{ article.date ? article.date|date('Y-m-d') : '' }} </p>
                 </div>
 
-                <div class="table-rows-column col-2">
+                <div class="table-rows-column" data-flex="2">
                     <a href="{{ path('app_admin_article_edit', {'id': article.id}) }}"><button class="btn-edit">{{ button_label|default('✏️Modifier') }}</button></a>
                     <a href="{{ path('app_admin_article_delete', {'id': article.id}) }}"><button class="btn-del">{{ button_label|default('🗑️Supprimer') }}</button></a>
                 </div>
@@ -66,7 +70,7 @@
     </section>
 
     <section class="additionnal-actions">
-        <a href="{{ path('app_admin_article_new') }}"><button class="btn-add">{{ button_label|default('✏️Ajouter') }}</button></a>
+        <a href="{{ path('app_admin_article_new') }}"><button class="btn-add"><i class="fa-solid fa-plus"></i>Ajouter</button></a>
     </section>
 
 {% endblock %}
