@@ -3,7 +3,11 @@ framework:
     secret: '%env(APP_SECRET)%'
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    session:
+        # For local HTTP development:
+        cookie_secure: false 
+        # For production HTTPS:
+        # cookie_secure: true
 
     #esi: true
     #fragments: true

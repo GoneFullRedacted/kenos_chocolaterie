@@ -39,6 +39,7 @@ class Article
 
     public function __construct()
     {
+        $this->date = new \DateTime();
         $this->articlepics = new ArrayCollection();
     }
 

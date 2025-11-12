@@ -1,15 +1,36 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/styles/css/globals.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/admin_table.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/panel_form.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/admin_header.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Editez une actualité{% endblock %}
+
+{% block body_classes %}
+    vertical-layout 
+{% endblock %}
 
 {% block javascripts %}
-<script src='/assets/js/AdminArticle.js' type='module'></script>
+    <script src='/assets/js/AdminArticle.js' type='module'></script>
 {%endblock%}
 
-{% block title %}New Article{% endblock %}
+{% block admin_header %}
+{{ include('admin/components/admin_header.html.twig', {
+'header_mode': 'vertical' 
+}) }}
+{%endblock%}
 
 {% block body %}
-    <h1>Create new Article</h1>
-
-    {{ include('admin_article/_form.html.twig') }}
-
-    <a href="{{ path('app_admin_article_index') }}">back to list</a>
+    
+    <div class='form-block'>
+        <h1>Nouvel article</h1>
+        {{ include('admin_article/_form.html.twig', {'button_label': 'Publier'}) }}
+        
+        <a href="{{ path('app_admin_article_index') }}">Retour à l'index</a>
+    </div>
+    
 {% endblock %}

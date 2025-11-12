@@ -26,7 +26,7 @@ class ArticleType extends AbstractType
             ])
 
             ->add('articlepics', CollectionType::class, [
-                'label' => 'Images de l\'article',
+                'label' => false,
                 'entry_type' => ArticlepicType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -39,6 +39,7 @@ class ArticleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Article::class,
+            'csrf_token_id' => 'article_item_token',
         ]);
     }
 }

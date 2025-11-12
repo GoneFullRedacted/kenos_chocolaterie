@@ -3,8 +3,9 @@
 {% block stylesheets %}
     <link href="{{ asset('assets/styles/css/globals.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/styles/css/components.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/styles/css/components/admin_table.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/admin_dashboard.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/styles/css/components/admin_header.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/styles/css/components/admin_footer.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block title %}Gestionnaire{% endblock %}
@@ -13,63 +14,71 @@
     {{ include('admin/components/admin_header.html.twig', {
     'header_mode': 'horizontal' 
     }) }}
+
 {%endblock%}
 
 {% block body %}
 
     <section class="admin-dashboard">
-        <div class="card-group">
+        <div class="card-group" data-flex="2">
             <div class="card">
                 <div class="card-top">
-                    <div class="circle">10</div>
+                    <div class="circle"><p>10</p></div>
                     <div class="card-text">
-                        <h2>UTILISATEURS</h2>
+                        <p>UTILISATEURS</p>
                         <p>sont inscrits</p>
                     </div>
                 </div>
-                <div>
-                    <a href="/admin/utilisateurs" class="btn-edit">Gérer les utilisateurs</a>
+                <div class="card-btn">
+                    <a href="/admin/user"><button class="btn-admin">Gérer les utilisateurs</button></a>
                 </div>
             </div>
             <div class="card">
                 <div class="card-top">
-                    <div class="circle">5</div>
+                    <div class="circle"><p>5</p></div>
                     <div class="card-text">
-                        <h2>CATÉGORIES</h2>
+                        <p>CATÉGORIES</p>
                         <p>de posts sont disponibles</p>
                     </div>
                 </div>
-                <button class="admin-button">Gérer les catégories</button>
+                <div class="card-btn">
+                    <a href=""><button class="btn-admin">Gérer les catégories</button></a>
+                </div>
             </div>
         </div>
-        <div class="card card-large">
+        <div class="card" data-flex="3">
             <div class="card-top">
-                <div class="circle">35</div>
+                <div class="circle"><p>35</p></div>
                 <div class="card-text">
-                    <h2>ACTUALITÉS</h2>
+                    <p>ACTUALITÉS</p>
                     <p>sont disponibles</p>
                 </div>
             </div>
-            <ul class="NewsList">
+            <ul class="news-list">
                 <li>Le 12/09/2021 – Lorem ipsum dolor sit amet</li>
                 <li>Le 12/09/2021 – Lorem ipsum dolor sit amet</li>
                 <li>Le 12/09/2021 – Lorem ipsum dolor sit amet</li>
             </ul>
-            <div>
-                <a href="/admin/article" class="btn-edit">Gérer les articles</a>
+            <div class="card-btn">
+                 <a href="/admin/article"><button class="btn-admin">Gérer les articles</button></a>
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-flex="2">
             <div class="card-top">
-                <div class="circle">48</div>
+                <div class="circle"><p>48</p></div>
                 <div class="card-text">
-                    <h2>POSTS</h2>
+                    <p>POSTS</p>
                     <p>sont disponibles</p>
                 </div>
             </div>
-            <button class="admin-button">Gérer les posts</button>
+            <div class="card-btn">
+                 <a href=""><button class="btn-admin">Gérer les posts</button></a>
+            </div>
         </div>
     </section>
-
+    {%block footer %}
+        {{ include ('admin/components/admin_footer.html.twig') }}
+    {% endblock %}
 {% endblock %}
+

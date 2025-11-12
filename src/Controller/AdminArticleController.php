@@ -33,6 +33,13 @@ final class AdminArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
         // Traiter les images des articles
         foreach ($form->get('articlepics') as $articlepicform) {
+            $articlePicEntity = $articlepicform->getData();
+
+            if ($articlepicform->has('isDeleted') && $articlepicform->get('isDeleted')->getData()) {
+                $article->removeArticlepic($articlePicEntity);
+                
+                continue; 
+            }            
             // Récupérer le fichier uploadé
             $imageFile = $articlepicform->get('picFile')->getData(); // UploadedFile ou null
             
@@ -74,6 +81,24 @@ final class AdminArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
         // Traiter les images des articles
         foreach ($form->get('articlepics') as $articlepicform) {
+
+            $articlePicEntity = $articlepicform->getData();
+
+            if ($articlepicform->has('isDeleted') && $articlepicform->get('isDeleted')->getData()) {
+                
+                // Supprimer l'image physique si elle existe
+                $oldFilename = $articlePicEntity->getPic(); 
+                if ($oldFilename) {
+                        $fileUploader->delete($oldFilename, 'articles');
+                }
+
+                $article->removeArticlepic($articlePicEntity);
+                
+                $entityManager->remove($articlePicEntity);
+
+                // Passer à l'itération suivante
+                continue; 
+            }
             // Récupérer le nouveau fichier uploadé
             $newImageFile = $articlepicform->get("picFile")->getData(); // UploadedFile ou null
 

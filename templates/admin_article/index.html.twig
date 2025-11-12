@@ -14,9 +14,12 @@
 {% block title %}Index des actualités{% endblock %}
 
 {% block body %}
-    <h1>Index des actualités</h1>
+
 
     <section class="table-layout">
+        <div class="table-title">
+            <h1>Index des actualités</h1>
+        </div>
         <section class="table-container">
             <section class="table-header">
 
@@ -52,8 +55,8 @@
                 </div>
 
                 <div class="table-rows-column" data-flex="2">
-                    <a href="{{ path('app_admin_article_edit', {'id': article.id}) }}"><button class="btn-edit">{{ button_label|default('✏️Modifier') }}</button></a>
-                    <a href="{{ path('app_admin_article_delete', {'id': article.id}) }}"><button class="btn-del">{{ button_label|default('🗑️Supprimer') }}</button></a>
+                    <a href="{{ path('app_admin_article_delete', {'id': article.id}) }}"><button class="btn-del"><i class="fa-solid fa-trash"></i><span>Supprimer</span></button></a>
+                    <a href="{{ path('app_admin_article_edit', {'id': article.id}) }}"><button class="btn-edit"><i class="fa-solid fa-pen"></i><span>Modifier<span></button></a>
                 </div>
             </section>
 
@@ -70,7 +73,7 @@
     </section>
 
     <section class="additionnal-actions">
-        <a href="{{ path('app_admin_article_new') }}"><button class="btn-add"><i class="fa-solid fa-plus"></i>Ajouter</button></a>
+        <a href="{{ path('app_admin_article_new') }}"><button class="btn-add"><i class="fa-solid fa-plus"></i><span>Ajouter</span></button></a>
     </section>
 
 {% endblock %}

@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class ArticlepicType extends AbstractType
 {
@@ -32,6 +33,7 @@ class ArticlepicType extends AbstractType
                         'maxSize' => '5M',
                         'mimeTypes' => [
                             'image/jpeg',
+                            'image/jpg',
                             'image/png',
                             'image/webp',
                         ],
@@ -43,6 +45,11 @@ class ArticlepicType extends AbstractType
             ->add('alttxt', TextType::class, [
                 'label' => 'Texte alternatif'
             ])
+
+            ->add('isDeleted', HiddenType::class, [
+                'mapped' => false,
+                'attr' => ['class' => 'delete-flag-input']
+    ]);
         ;
         // $builder
         //     ->add('pic')

@@ -1,5 +1,13 @@
+{% block javascripts %}
+    <script src="{{ asset('assets/js/ResponsiveHeader.js') }}"></script>
+{%endblock%}
+
 <header class="admin-header {{ header_mode|default('horizontal') }} ">
     
+    <button class="menu-toggle-btn" id="menuToggle">
+        ☰
+    </button>
+
     <div class="header-logo">
         <a href=""><img src="/assets\images\logo-david-kenos.png" alt="Logo"></a>
     </div>
@@ -10,16 +18,16 @@
 
     <nav class="header-status">
         <a href="/">Accueil</a>
-        <a href="/">Déconnexion</a>
+        <a href="/logout">Déconnexion</a>
         <a href="/">Chocolaterie</a>
         <a href="/">Profil</a>
     </nav>
 
     <section class="category-nav">
-        <a href="/">UTILISATEURS</a>
+        <a href="/user">UTILISATEURS</a>
         <a href="/">CATEGORIES</a>
         <a href="/">POSTS</a>
-        <a href="/">ACTUALITES</a>
+        <a href="/admin/article">ACTUALITES</a>
         <a href="/">CHOCOLATERIES</a>
     </section>
 
